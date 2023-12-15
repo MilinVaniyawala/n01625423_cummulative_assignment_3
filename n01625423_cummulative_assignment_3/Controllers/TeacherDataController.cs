@@ -17,7 +17,14 @@ namespace n01625423_cummulative_assignment_3.Controllers
         private SchoolDbContext School = new SchoolDbContext();
 
         // --- Get All Teachers Data ---
-
+        //This Controller Will access the teachers table of our school database. Non-Deterministic.
+        /// <summary>
+        /// Returns a list of teachers in the system
+        /// </summary>
+        /// <returns>
+        /// A list of Teacher Objects with fields mapped to the database column values (first name, last name, employeement number, hiredate, salary).
+        /// </returns>
+        /// <example>GET api/TeacherData/ListTeachers -> {Teacher Object, Teacher Object, Teacher Object...}</example>
         [HttpGet]
         [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
         public IEnumerable<Teacher> ListTeachers(string SearchKey = null)
@@ -29,7 +36,7 @@ namespace n01625423_cummulative_assignment_3.Controllers
             Conn.Open();
 
             // Create a variable to handle the query Command
-            MySqlCommand cmd =  Conn.CreateCommand();
+            MySqlCommand cmd = Conn.CreateCommand();
 
             // SQL Query for get all the teacher data from the teachers datatable
             cmd.CommandText = "Select * from teacher where lower(teacherfname) like lower(@key) or lower(teacherlname) like lower(@key) or lower(concat(teacherfname, ' ', teacherlname)) like lower(@key)";
@@ -40,7 +47,7 @@ namespace n01625423_cummulative_assignment_3.Controllers
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
             // Create an emplty list of teachers [Intialize Everytime]
-            List<Teacher> Teachers = new List<Teacher>{ };
+            List<Teacher> Teachers = new List<Teacher> { };
 
             // Loop Through Each Row the Result Set
             while (ResultSet.Read())
@@ -73,8 +80,15 @@ namespace n01625423_cummulative_assignment_3.Controllers
         }
 
         // --- Find Teacher --- Need This during updating and deleting specific Teacher from the teachers datatable
+        /// <summary>
+        /// Finds an teacher from the MySQL Database through an id. Non-Deterministic.
+        /// </summary>
+        /// <param name="id">The Teacher ID</param>
+        /// <returns>Teacher object containing information about the teacher with a matching ID. Empty Teacher Object if the ID does not match any teachers in the system.</returns>
+        /// <example>api/TeacherData/FindTeacher/6 -> {Teacher Object}</example>
+        /// <example>api/TeacherData/FindTeacher/10 -> {Teacher Object}</example>
         [HttpGet]
-       public Teacher FindTeacher(int id)
+        public Teacher FindTeacher(int id)
         {
             Teacher NewTeacher = new Teacher();
 
@@ -119,8 +133,22 @@ namespace n01625423_cummulative_assignment_3.Controllers
             return NewTeacher;
         }
         // --- Add Teacher ---
+        /// <summary>
+        /// Adds an Teacher to the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="NewTeacher">An object with fields that map to the columns of the author's table. </param>
+        /// <example>
+        /// POST api/TeacherData/AddTeacher 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"TeacherFname":"Milin",
+        ///	"TeacherLname":"Vaniyawala",
+        ///	"EmployeeNumber":"L874",
+        ///	"Salary":"85.65"
+        /// }
+        /// </example>
         [HttpPost]
-        public void AddTeacher([FromBody]Teacher NewTeacher)
+        public void AddTeacher([FromBody] Teacher NewTeacher)
         {
             // Create an instance variable for database connection
             MySqlConnection Conn = School.AccessDatabase();
@@ -144,8 +172,22 @@ namespace n01625423_cummulative_assignment_3.Controllers
             Conn.Close();
         }
         // --- Update Teacher ---
+        /// <summary>
+        /// Updates an Teacher on the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="TeacherInfo">An object with fields that map to the columns of the teacher's table.</param>
+        /// <example>
+        /// POST api/TeacherData/UpdateTeacher/5
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"TeacherFname":"Owen",
+        ///	"TeacherLname":"Laing",
+        ///	"EmployeeNumber":"L874",
+        ///	"Salary":"85.65"
+        /// }
+        /// </example>
         [HttpPost]
-        public int UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        public int UpdateTeacher(int id, [FromBody] Teacher TeacherInfo)
         {
             // Server Side Validation
             try
@@ -191,6 +233,11 @@ namespace n01625423_cummulative_assignment_3.Controllers
             }
         }
         // --- Remove[Delete] Teacher ---
+        /// <summary>
+        /// Deletes an Teacher from the connected MySQL Database if the ID of that teacher exists. Does NOT maintain relational integrity. Non-Deterministic.
+        /// </summary>
+        /// <param name="id">The ID of the Teacher.</param>
+        /// <example>POST /api/TeacherData/RemoveTeacher/3</example>
         [HttpPost]
         public void RemoveTeacher(int id)
         {

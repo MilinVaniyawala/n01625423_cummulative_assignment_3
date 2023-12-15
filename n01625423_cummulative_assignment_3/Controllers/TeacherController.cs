@@ -42,9 +42,8 @@ namespace n01625423_cummulative_assignment_3.Controllers
         // POST : /Teacher/Create
         [HttpPost]
         public ActionResult Create(string TeacherFname, string TeacherLname, string EmployeeNumber, string Salary)
-        {        
+        {
             // the inputs provided from the form
-
             Debug.WriteLine("I have accessed the Create Method!");
             Debug.WriteLine(TeacherFname);
             Debug.WriteLine(TeacherLname);
@@ -64,6 +63,12 @@ namespace n01625423_cummulative_assignment_3.Controllers
         }
 
         // GET : /Teacher/Update/{id}
+        /// <summary>
+        /// Routes to a dynamically generated "Teacher Update" Page. Gathers information from the database.
+        /// </summary>
+        /// <param name="id">Id of the Teacher</param>
+        /// <returns>A dynamic "Update Teacher" webpage which provides the current information of the teacher and asks the user for new information as part of a form.</returns>
+        /// <example>GET : /Teacher/Update/5</example>
         public ActionResult Update(int id)
         {
             TeacherDataController controller = new TeacherDataController();
@@ -73,6 +78,25 @@ namespace n01625423_cummulative_assignment_3.Controllers
         }
 
         // POST : /Teacher/Update/{id}
+        /// <summary>
+        /// Receives a POST request containing information about an existing teacher in the system, with new values. Conveys this information to the API, and redirects to the "Teacher Show" page of our updated teacher.
+        /// </summary>
+        /// <param name="id">Id of the Teacher to update</param>
+        /// <param name="TeacherFname">The updated first name of the teacher</param>
+        /// <param name="TeacherLname">The updated last name of the teacher</param>
+        /// <param name="EmployeeNumber">The updated bio of the teacher.</param>
+        /// <param name="Salary">The updated email of the teacher.</param>
+        /// <returns>A dynamic webpage which provides the current information of the author.</returns>
+        /// <example>
+        /// POST : /Teacher/Update/10
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"TeacherFname":"Owen",
+        ///	"TeacherLname":"Laing",
+        ///	"EmployeeNumber":"L874",
+        ///	"Salary":"85.65"
+        /// }
+        /// </example>
         [HttpPost]
         public ActionResult Update(int id, string TeacherFname, string TeacherLname, string EmployeeNumber, string Salary)
         {
