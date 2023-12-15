@@ -1,0 +1,16 @@
+﻿@model n01625423_cummulative_assignment_3.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+<div id="containershow">
+    <nav>
+        <a class="navlink" href="/Teacher/List">Back To Teachers</a>
+        <a class="dellink" href="/Teacher/DeleteConfirm/@Model.TeacherID">Delete</a>
+        <a class="navlink" href="/Teacher/Update/@Model.TeacherID">Update</a>
+    </nav>
+    <h2>@Model.TeacherFName @Model.TeacherLName</h2>
+    <p><b>Employee ID : </b>@Model.EmployeeNumber</p>
+    <p><b>Hire Date : </b>@Model.HireDate</p>
+    <p><b>Salary : </b>@Model.Salary $</p>
+</div>
